@@ -13,6 +13,11 @@ interface FormValues {
 
 const SignUp: React.FC = () => {
   const form = useForm<FormValues>({
+    initialValues: {
+      name: '',
+      email: '',
+      password: '',
+    },
     validate: {
       name: (value) => (value.length > 0 ? null : '用户名无效'),
       email: isEmail('邮箱无效'),
