@@ -24,7 +24,11 @@ const RootStyleRegistry: React.FC<MantineProviderProps> = ({ children }) => {
 
   return (
     <CacheProvider value={cache}>
-      <MantineProvider withGlobalStyles withNormalizeCSS>
+      <MantineProvider
+        withGlobalStyles
+        withNormalizeCSS
+        theme={{ colorScheme: 'dark' }}
+      >
         {children}
       </MantineProvider>
     </CacheProvider>
