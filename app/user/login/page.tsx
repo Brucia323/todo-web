@@ -13,6 +13,10 @@ interface FormValues {
 
 const Login: React.FC = () => {
   const form = useForm<FormValues>({
+    initialValues: {
+      email: '',
+      password: '',
+    },
     validate: {
       email: isEmail('邮箱无效'),
       password: matches(PASSWORD, '密码无效'),
