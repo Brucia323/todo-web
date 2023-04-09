@@ -1,4 +1,5 @@
 import { MantineProviderProps } from '@mantine/core';
+import { Analytics } from '@vercel/analytics/react';
 import React from 'react';
 import RootStyleRegistry from './emotion';
 
@@ -12,6 +13,7 @@ const RootLayout: React.FC<MantineProviderProps> = ({ children }) => {
     <html lang="zh-Hans-CN">
       <body>
         <RootStyleRegistry>{children}</RootStyleRegistry>
+        <Analytics />
       </body>
     </html>
   );
