@@ -8,6 +8,7 @@ import {
 } from '@mantine/core';
 import { useServerInsertedHTML } from 'next/navigation';
 import React from 'react';
+import { Notifications } from '@mantine/notifications'
 
 const RootStyleRegistry: React.FC<MantineProviderProps> = ({ children }) => {
   const cache = useEmotionCache();
@@ -29,6 +30,7 @@ const RootStyleRegistry: React.FC<MantineProviderProps> = ({ children }) => {
         withNormalizeCSS
         theme={{ colorScheme: 'dark' }}
       >
+        <Notifications />
         {children}
       </MantineProvider>
     </CacheProvider>
