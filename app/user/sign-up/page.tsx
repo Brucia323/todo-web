@@ -4,6 +4,8 @@ import { PASSWORD } from '@/lib/utils';
 import { Button, PasswordInput, Stack, TextInput } from '@mantine/core';
 import { isEmail, matches, useForm } from '@mantine/form';
 import { IconMail, IconPassword, IconUser } from '@tabler/icons-react';
+import { useLocalStorage } from '@mantine/hooks';
+import { notifications } from '@mantine/notifications';
 
 interface FormValues {
   name: string;
@@ -12,6 +14,7 @@ interface FormValues {
 }
 
 const SignUp: React.FC = () => {
+  const [value, setValue] = useLocalStorage({ key: 'token' });
   const form = useForm<FormValues>({
     initialValues: {
       name: '',
@@ -34,7 +37,8 @@ const SignUp: React.FC = () => {
       body: JSON.stringify(values),
     });
     if (response.status === 201) {
-      console.log('sign up');
+      const token: string = await response.json();
+      setValue(token);
     }
   };
 
