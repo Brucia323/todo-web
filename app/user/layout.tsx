@@ -3,7 +3,6 @@
 import {
   ActionIcon,
   AppShell,
-  AppShellProps,
   Flex,
   Header,
 } from '@mantine/core';
@@ -11,7 +10,7 @@ import { IconHome } from '@tabler/icons-react';
 import Link from 'next/link';
 import React from 'react';
 
-const Layout: React.FC<AppShellProps> = ({ children }) => {
+export default function Layout({ children }: { children: React.ReactNode; }) {
   return (
     <AppShell
       header={
@@ -29,6 +28,4 @@ const Layout: React.FC<AppShellProps> = ({ children }) => {
       {children}
     </AppShell>
   );
-};
-
-export default Layout;
+}
