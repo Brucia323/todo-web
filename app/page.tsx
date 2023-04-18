@@ -1,10 +1,18 @@
 'use client';
 
-import { AppShell, Blockquote, Button, Flex, Header, Stack, Title } from '@mantine/core';
+import {
+  AppShell,
+  Blockquote,
+  Button,
+  Flex,
+  Header,
+  Stack,
+  Title,
+} from '@mantine/core';
 import Link from 'next/link';
 import React from 'react';
 
-const Home: React.FC = () => {
+export default function Home() {
   return (
     <AppShell
       header={
@@ -27,6 +35,4 @@ const Home: React.FC = () => {
       </Stack>
     </AppShell>
   );
-};
-
-export default Home;
+}
