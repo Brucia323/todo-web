@@ -15,9 +15,10 @@ import React from 'react';
 export default function Home() {
   return (
     <AppShell
+      padding="md"
       header={
-        <Header height={60} pr="lg">
-          <Flex justify="flex-end" align="center" h="100%" gap="lg">
+        <Header height={60} p="xs">
+          <Flex gap="md" justify="flex-end" align="center" h="100%">
             <Link href="/user/login">
               <Button variant="default">登录</Button>
             </Link>
