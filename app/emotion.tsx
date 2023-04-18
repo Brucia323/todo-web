@@ -1,16 +1,16 @@
 'use client';
 
 import { CacheProvider } from '@emotion/react';
-import {
-  MantineProvider,
-  MantineProviderProps,
-  useEmotionCache,
-} from '@mantine/core';
+import { MantineProvider, useEmotionCache } from '@mantine/core';
 import { useServerInsertedHTML } from 'next/navigation';
 import React from 'react';
-import { Notifications } from '@mantine/notifications'
+import { Notifications } from '@mantine/notifications';
 
-const RootStyleRegistry: React.FC<MantineProviderProps> = ({ children }) => {
+export default function RootStyleRegistry({
+  children,
+}: {
+  children: React.ReactNode;
+}) {
   const cache = useEmotionCache();
   cache.compat = true;
 
@@ -30,11 +30,9 @@ const RootStyleRegistry: React.FC<MantineProviderProps> = ({ children }) => {
         withNormalizeCSS
         theme={{ colorScheme: 'dark' }}
       >
-        <Notifications />
         {children}
+        <Notifications />
       </MantineProvider>
     </CacheProvider>
   );
-};
-
-export default RootStyleRegistry;
+}
