@@ -1,11 +1,11 @@
 'use client';
 
-import { PASSWORD } from '@/lib/utils';
+import { FETCH, PASSWORD } from '@/lib/utils';
 import { Button, PasswordInput, Stack, TextInput } from '@mantine/core';
 import { isEmail, matches, useForm } from '@mantine/form';
 import { IconMail, IconPassword, IconUser } from '@tabler/icons-react';
-import { useLocalStorage } from '@mantine/hooks';
 import { notifications } from '@mantine/notifications';
+import { useRouter } from 'next/navigation';
 
 interface FormValues {
   name: string;
@@ -13,8 +13,8 @@ interface FormValues {
   password: string;
 }
 
-const SignUp: React.FC = () => {
-  const [value, setValue] = useLocalStorage({ key: 'token' });
+export default function SignUp() {
+  const router = useRouter();
   const form = useForm<FormValues>({
     initialValues: {
       name: '',
@@ -32,13 +32,17 @@ const SignUp: React.FC = () => {
     values: FormValues,
     _event: React.FormEvent<HTMLFormElement>
   ) => {
-    const response = await fetch('/api/sign-up', {
-      method: 'POST',
+    const response = await fetch('/api/user/sign-up', {
+      method: FETCH.METHOD.POST,
+      headers: FETCH.HEADER,
       body: JSON.stringify(values),
     });
     if (response.status === 201) {
-      const token: string = await response.json();
-      setValue(token);
+      notifications.show({
+        title: '注册成功',
+        message: `欢迎 ${values.email}!`,
+      });
+      router.push('/user/login')
     }
   };
 
@@ -68,6 +72,4 @@ const SignUp: React.FC = () => {
       </form>
     </Stack>
   );
-};
-
-export default SignUp;
+}
