@@ -47,6 +47,5 @@
   "engines": {
     "node": ">=18.15.0"
   },
-  "packageManager": "pnpm@8.1.1",
-  "proxy": "http://localhost:8080"
+  "packageManager": "pnpm@8.1.1"
 }
