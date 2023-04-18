@@ -13,8 +13,9 @@ import React from 'react';
 export default function Layout({ children }: { children: React.ReactNode; }) {
   return (
     <AppShell
+      padding="md"
       header={
-        <Header height={60} pl="lg">
+        <Header height={60} p="xs">
           <Flex align="center" h="100%">
             <Link href="/">
               <ActionIcon size="lg">
