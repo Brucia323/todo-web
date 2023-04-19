@@ -41,8 +41,15 @@ export default function SignUp() {
       notifications.show({
         title: '注册成功',
         message: `欢迎 ${values.email}!`,
+        color: 'green',
       });
-      router.push('/user/login')
+      router.push('/user/login');
+    } else {
+      notifications.show({
+        title: '注册失败',
+        message: '邮箱被占用',
+        color: 'red',
+      });
     }
   };
 
