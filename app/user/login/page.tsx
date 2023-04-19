@@ -5,7 +5,7 @@ import { Button, PasswordInput, Stack, TextInput } from '@mantine/core';
 import { isEmail, matches, useForm } from '@mantine/form';
 import { useSessionStorage } from '@mantine/hooks';
 import { notifications } from '@mantine/notifications';
-import { IconMail, IconPassword } from '@tabler/icons-react';
+import { IconLogin, IconMail, IconPassword } from '@tabler/icons-react';
 import { useRouter } from 'next/navigation';
 import React from 'react';
 
@@ -69,7 +69,7 @@ export default function Login() {
             icon={<IconPassword />}
             {...form.getInputProps('password')}
           />
-          <Button fullWidth type="submit">
+          <Button fullWidth leftIcon={<IconLogin />} type="submit">
             登录
           </Button>
         </Stack>
