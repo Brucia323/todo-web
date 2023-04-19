@@ -3,7 +3,7 @@
 import { FETCH, PASSWORD } from '@/lib/utils';
 import { Button, PasswordInput, Stack, TextInput } from '@mantine/core';
 import { isEmail, matches, useForm } from '@mantine/form';
-import { useLocalStorage } from '@mantine/hooks';
+import { useSessionStorage } from '@mantine/hooks';
 import { notifications } from '@mantine/notifications';
 import { IconMail, IconPassword } from '@tabler/icons-react';
 import { useRouter } from 'next/navigation';
@@ -16,7 +16,7 @@ interface FormValues {
 
 export default function Login() {
   const router = useRouter();
-  const [value, setValue] = useLocalStorage({ key: 'token' });
+  const [_value, setValue] = useSessionStorage({ key: 'user' });
   const form = useForm<FormValues>({
     initialValues: {
       email: '',
@@ -38,13 +38,20 @@ export default function Login() {
       body: JSON.stringify(values),
     });
     if (response.status === 201) {
-      const data: { name: string; token: string } = await response.json();
-      setValue(data.token);
+      const user: { name: string; token: string } = await response.json();
+      setValue(JSON.stringify(user));
       notifications.show({
         title: '登录成功',
-        message: `欢迎回来 ${data.name}!`,
+        message: `欢迎回来 ${user.name}!`,
+        color: 'green',
       });
-      router.push('/');
+      router.push('/todo/dashboard');
+    } else if (response.status === 401) {
+      notifications.show({
+        title: '登录失败',
+        message: '邮箱或密码错误',
+        color: 'red',
+      });
     }
   };
 
