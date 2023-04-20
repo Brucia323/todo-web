@@ -1,5 +1,7 @@
 'use client';
 
+import { useUser } from '@/lib/service';
+import { UserType } from '@/lib/types';
 import { FETCH, PASSWORD } from '@/lib/utils';
 import { Button, PasswordInput, Stack, TextInput } from '@mantine/core';
 import { isEmail, matches, useForm } from '@mantine/form';
@@ -7,7 +9,7 @@ import { useSessionStorage } from '@mantine/hooks';
 import { notifications } from '@mantine/notifications';
 import { IconLogin, IconMail, IconPassword } from '@tabler/icons-react';
 import { useRouter } from 'next/navigation';
-import React from 'react';
+import React, { useState } from 'react';
 
 interface FormValues {
   email: string;
@@ -15,8 +17,9 @@ interface FormValues {
 }
 
 export default function Login() {
+  const { setUser } = useUser();
+  const [loading, setLoading] = useState(false);
   const router = useRouter();
-  const [_value, setValue] = useSessionStorage({ key: 'user' });
   const form = useForm<FormValues>({
     initialValues: {
       email: '',
@@ -32,26 +35,32 @@ export default function Login() {
     values: FormValues,
     _event: React.FormEvent<HTMLFormElement>
   ) => {
-    const response = await fetch('/api/user/login', {
-      method: FETCH.METHOD.POST,
-      headers: FETCH.HEADER,
-      body: JSON.stringify(values),
-    });
-    if (response.status === 201) {
-      const user: { name: string; token: string } = await response.json();
-      setValue(JSON.stringify(user));
-      notifications.show({
-        title: '登录成功',
-        message: `欢迎回来 ${user.name}!`,
-        color: 'green',
+    try {
+      setLoading(true);
+      const response = await fetch('/api/user/login', {
+        method: FETCH.METHOD.POST,
+        headers: FETCH.HEADER,
+        body: JSON.stringify(values),
       });
-      router.push('/todo/dashboard');
-    } else if (response.status === 401) {
-      notifications.show({
-        title: '登录失败',
-        message: '邮箱或密码错误',
-        color: 'red',
-      });
+      if (response.status === 201) {
+        const user: UserType = await response.json();
+        setUser(user)
+        notifications.show({
+          title: '登录成功',
+          message: `欢迎回来 ${user.name}!`,
+          color: 'green',
+        });
+        router.push('/todo/dashboard');
+      } else if (response.status === 401) {
+        notifications.show({
+          title: '登录失败',
+          message: '邮箱或密码错误',
+          color: 'red',
+        });
+      }
+    } catch {
+    } finally {
+      setLoading(false);
     }
   };
 
@@ -69,7 +78,12 @@ export default function Login() {
             icon={<IconPassword />}
             {...form.getInputProps('password')}
           />
-          <Button fullWidth leftIcon={<IconLogin />} type="submit">
+          <Button
+            fullWidth
+            leftIcon={<IconLogin />}
+            loading={loading}
+            type="submit"
+          >
             登录
           </Button>
         </Stack>
