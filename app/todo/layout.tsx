@@ -1,37 +1,27 @@
 'use client';
 
+import { UserType } from '@/lib/types';
 import {
   AppShell,
   Flex,
-  Group,
   Header,
   Menu,
   Navbar,
-  Text,
   UnstyledButton,
 } from '@mantine/core';
 import { useSessionStorage } from '@mantine/hooks';
-import { notifications } from '@mantine/notifications';
-import { IconLogout, IconSettings2 } from '@tabler/icons-react';
+import { IconLogout, IconMenu2, IconSettings2 } from '@tabler/icons-react';
 import { useRouter } from 'next/navigation';
-import React from 'react';
+import React, { useEffect } from 'react';
+import { MainLinks } from './_mainLinks';
+import { useUser } from '@/lib/service';
 
 export default function Layout({ children }: { children: React.ReactNode }) {
+  const { removeUser } = useUser();
   const router = useRouter();
-  const [value, setValue, removeValue] = useSessionStorage({
-    key: 'token',
-    getInitialValueInEffect: false,
-  });
-
-  if (!value) {
-    notifications.show({ title: '未登录', message: '请先登录', color: 'red' });
-    router.push('/');
-  }
-
-  const user: { name: string; token: string } = JSON.parse(value);
 
   const handleLogout = () => {
-    removeValue();
+    removeUser();
     router.push('/');
   };
 
@@ -39,22 +29,20 @@ export default function Layout({ children }: { children: React.ReactNode }) {
     <AppShell
       padding="md"
       navbar={
-        <Navbar width={{ base: 300 }} height="100%" p="xs">
-          <Navbar.Section>仪表板</Navbar.Section>
+        <Navbar width={{ base: 'xl' }} height="100%" p="xs">
+          <Navbar.Section grow>
+            <MainLinks />
+          </Navbar.Section>
         </Navbar>
       }
       header={
         <Header height={60} p="xs">
-          <Flex justify="flex-end" align="center">
-            <Menu
-              closeDelay={400}
-              openDelay={100}
-              shadow="md"
-              trigger="hover"
-              width={200}
-            >
+          <Flex justify="flex-end" align="center" h="100%">
+            <Menu closeDelay={400} openDelay={100} shadow="md" trigger="hover">
               <Menu.Target>
-                <UnstyledButton>{user.name}</UnstyledButton>
+                <UnstyledButton>
+                  <IconMenu2 />
+                </UnstyledButton>
               </Menu.Target>
               <Menu.Dropdown>
                 <Menu.Item icon={<IconSettings2 />}>设置</Menu.Item>
