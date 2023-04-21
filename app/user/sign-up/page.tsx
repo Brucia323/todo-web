@@ -1,11 +1,12 @@
 'use client';
 
-import { FETCH, PASSWORD } from '@/lib/utils';
+import { PASSWORD } from '@/lib/utils';
 import { Button, PasswordInput, Stack, TextInput } from '@mantine/core';
 import { isEmail, matches, useForm } from '@mantine/form';
 import { IconMail, IconPassword, IconUser } from '@tabler/icons-react';
 import { notifications } from '@mantine/notifications';
 import { useRouter } from 'next/navigation';
+import { HTTP_METHODS } from 'next/dist/server/web/http';
 
 interface FormValues {
   name: string;
@@ -28,13 +29,10 @@ export default function SignUp() {
     },
   });
 
-  const handleSubmit = async (
-    values: FormValues,
-    _event: React.FormEvent<HTMLFormElement>
-  ) => {
+  const handleSubmit = async (values: FormValues) => {
     const response = await fetch('/api/user/sign-up', {
-      method: FETCH.METHOD.POST,
-      headers: FETCH.HEADER,
+      method: HTTP_METHODS[3],
+      headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify(values),
     });
     if (response.status === 201) {
