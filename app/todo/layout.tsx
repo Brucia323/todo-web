@@ -1,6 +1,5 @@
 'use client';
 
-import { UserType } from '@/lib/types';
 import {
   AppShell,
   Flex,
@@ -13,15 +12,29 @@ import { useSessionStorage } from '@mantine/hooks';
 import { IconLogout, IconMenu2, IconSettings2 } from '@tabler/icons-react';
 import { useRouter } from 'next/navigation';
 import React, { useEffect } from 'react';
-import { MainLinks } from './_mainLinks';
-import { useUser } from '@/lib/service';
+import MainLinks from './mainLinks';
+import { UserType } from '@/lib/types';
 
 export default function Layout({ children }: { children: React.ReactNode }) {
-  const { removeUser } = useUser();
+  const [value, _setValue, removeValue] = useSessionStorage<
+    UserType | undefined
+  >({ key: 'user' });
   const router = useRouter();
 
+  useEffect(() => {
+    if (
+      typeof window !== 'undefined' &&
+      'sessionStorage' in window &&
+      window.sessionStorage !== null &&
+      value === undefined
+    ) {
+      console.log('user undefined');
+      // router.push('/');
+    }
+  }, [router, value]);
+
   const handleLogout = () => {
-    removeUser();
+    removeValue();
     router.push('/');
   };
 
