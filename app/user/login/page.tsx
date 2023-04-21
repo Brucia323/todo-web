@@ -1,13 +1,13 @@
 'use client';
 
-import { useUser } from '@/lib/service';
 import { UserType } from '@/lib/types';
-import { FETCH, PASSWORD } from '@/lib/utils';
+import { PASSWORD } from '@/lib/utils';
 import { Button, PasswordInput, Stack, TextInput } from '@mantine/core';
 import { isEmail, matches, useForm } from '@mantine/form';
 import { useSessionStorage } from '@mantine/hooks';
 import { notifications } from '@mantine/notifications';
 import { IconLogin, IconMail, IconPassword } from '@tabler/icons-react';
+import { HTTP_METHODS } from 'next/dist/server/web/http';
 import { useRouter } from 'next/navigation';
 import React, { useState } from 'react';
 
@@ -17,7 +17,7 @@ interface FormValues {
 }
 
 export default function Login() {
-  const { setUser } = useUser();
+  const [_value, setValue] = useSessionStorage<UserType>({ key: 'user' });
   const [loading, setLoading] = useState(false);
   const router = useRouter();
   const form = useForm<FormValues>({
@@ -31,20 +31,18 @@ export default function Login() {
     },
   });
 
-  const handleSubmit = async (
-    values: FormValues,
-    _event: React.FormEvent<HTMLFormElement>
-  ) => {
+  const handleSubmit = async (values: FormValues) => {
     try {
       setLoading(true);
       const response = await fetch('/api/user/login', {
-        method: FETCH.METHOD.POST,
-        headers: FETCH.HEADER,
+        method: HTTP_METHODS[3],
+        headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify(values),
       });
       if (response.status === 201) {
         const user: UserType = await response.json();
-        setUser(user)
+        user.token = `Bearer ${user.token}`;
+        setValue(user);
         notifications.show({
           title: '登录成功',
           message: `欢迎回来 ${user.name}!`,
