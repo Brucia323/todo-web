@@ -7,6 +7,7 @@ import { IconMail, IconPassword, IconUser } from '@tabler/icons-react';
 import { notifications } from '@mantine/notifications';
 import { useRouter } from 'next/navigation';
 import { HTTP_METHODS } from 'next/dist/server/web/http';
+import Logo from '@/app/logo';
 
 interface FormValues {
   name: string;
@@ -53,6 +54,7 @@ export default function SignUp() {
 
   return (
     <Stack align="center" justify="center" h="100%">
+      <Logo />
       <form onSubmit={form.onSubmit(handleSubmit)}>
         <Stack spacing="lg">
           <TextInput
