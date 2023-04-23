@@ -5,12 +5,14 @@ import {
   Blockquote,
   Button,
   Flex,
+  Group,
   Header,
   Stack,
   Title,
 } from '@mantine/core';
 import Link from 'next/link';
 import React from 'react';
+import Logo from './logo';
 
 export default function Home() {
   return (
@@ -18,14 +20,17 @@ export default function Home() {
       padding="md"
       header={
         <Header height={60} p="xs">
-          <Flex gap="md" justify="flex-end" align="center" h="100%">
-            <Link href="/user/login">
-              <Button variant="default">登录</Button>
-            </Link>
-            <Link href="/user/sign-up">
-              <Button>注册</Button>
-            </Link>
-          </Flex>
+          <Group position="apart">
+            <Logo />
+            <Flex gap="md" align="center" h="100%">
+              <Link href="/user/login">
+                <Button variant="default">登录</Button>
+              </Link>
+              <Link href="/user/sign-up">
+                <Button>注册</Button>
+              </Link>
+            </Flex>
+          </Group>
         </Header>
       }
     >
