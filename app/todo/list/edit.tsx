@@ -24,6 +24,7 @@ interface FormValue {
   name: string;
   beginTime: Date | null;
   plannedEndTime: Date | null;
+  currentAmount: number;
   totalAmount: number | '';
   description: string | null;
 }
@@ -43,7 +44,7 @@ export default function Edit(props: FormValue) {
           Authorization: value.token,
           'Content-Type': 'application/json',
         },
-        body: JSON.stringify(values),
+        body: JSON.stringify({ ...values, currentAmount: props.currentAmount }),
       });
       if (response.status === 200) {
         notifications.show({
@@ -61,7 +62,12 @@ export default function Edit(props: FormValue) {
 
   return (
     <>
-      <Drawer opened={opened} onClose={close} title="修改任务">
+      <Drawer
+        opened={opened}
+        onClose={close}
+        title="修改任务"
+        overlayProps={{ opacity: 0, blur: 8 }}
+      >
         <form onSubmit={form.onSubmit(handleSubmit)}>
           <Stack>
             <TextInput
@@ -93,7 +99,7 @@ export default function Edit(props: FormValue) {
             />
             <Textarea
               autosize
-              label="描述"
+              label="备注"
               placeholder="备忘"
               {...form.getInputProps('description')}
             />
