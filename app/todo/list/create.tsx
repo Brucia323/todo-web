@@ -61,7 +61,12 @@ export default function Create() {
 
   return (
     <>
-      <Drawer opened={opened} onClose={close} title="新建任务">
+      <Drawer
+        opened={opened}
+        onClose={close}
+        title="新建任务"
+        overlayProps={{ opacity: 0, blur: 8 }}
+      >
         <form onSubmit={form.onSubmit(handleSubmit)}>
           <Stack>
             <TextInput
@@ -95,7 +100,7 @@ export default function Create() {
             />
             <Textarea
               autosize
-              label="描述"
+              label="备注"
               placeholder="备忘"
               {...form.getInputProps('description')}
             />
