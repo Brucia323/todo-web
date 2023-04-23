@@ -20,3 +20,18 @@ export async function POST(
     body: JSON.stringify(body),
   });
 }
+
+export async function DELETE(
+  request: Request,
+  { params }: { params: { id: number } }
+) {
+  const authorization = request.headers.get('Authorization');
+  if (authorization === null) {
+    redirect('/');
+  }
+  const id = params.id;
+  return await fetch(`http://localhost:8080/todo/${id}`, {
+    method: HTTP_METHODS[5],
+    headers: { Authorization: authorization },
+  });
+}
