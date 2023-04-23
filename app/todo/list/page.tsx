@@ -1,14 +1,22 @@
 'use client';
 
 import { UserType } from '@/lib/types';
-import { Button, Container, Flex, Group, Progress, Table } from '@mantine/core';
+import {
+  Container,
+  Flex,
+  Group,
+  HoverCard,
+  Progress,
+  Table,
+  Text,
+} from '@mantine/core';
 import { useSessionStorage } from '@mantine/hooks';
 import { HTTP_METHODS } from 'next/dist/server/web/http';
 import useSWR from 'swr';
 import Create from './create';
-import Update from './update';
+import Delete from './delete';
 import Edit from './edit';
-import dayjs from 'dayjs';
+import Update from './update';
 
 interface TodoType {
   id: number;
@@ -17,7 +25,7 @@ interface TodoType {
   beginTime: string | null;
   plannedEndTime: string | null;
   actualEndTime: string | null;
-  currentAmount: number | null;
+  currentAmount: number;
   totalAmount: number;
   description: string | null;
   createTime: string;
@@ -50,21 +58,27 @@ export default function TodoList() {
       ((value.currentAmount ?? 0) / (value.totalAmount ?? 0)) * 100;
     return (
       <tr key={value.id}>
-        <td>{value.name}</td>
-        <td>{value.beginTime}</td>
-        <td>{value.plannedEndTime}</td>
-        <td>{value.actualEndTime}</td>
         <td>
-          {value.totalAmount && (
-            <Progress
-              sections={[
-                {
-                  value: progress,
-                  color: progress < 100 ? 'blue' : 'green',
-                },
-              ]}
-            />
-          )}
+          <HoverCard width={320}>
+            <HoverCard.Target>
+              <Text>{value.name}</Text>
+            </HoverCard.Target>
+            <HoverCard.Dropdown>{value.description}</HoverCard.Dropdown>
+          </HoverCard>
+        </td>
+        <td>{value.beginTime}</td>
+        <td>
+          {value.actualEndTime ? value.actualEndTime : value.plannedEndTime}
+        </td>
+        <td>
+          <Progress
+            sections={[
+              {
+                value: progress,
+                color: progress < 100 ? 'blue' : 'green',
+              },
+            ]}
+          />
         </td>
         <td>
           <Group>
@@ -74,10 +88,12 @@ export default function TodoList() {
               plannedEndTime={new Date(value.plannedEndTime ?? '')}
               description={value.description ?? ''}
             />
-            <Update min={value.currentAmount ?? 0} max={value.totalAmount} id={value.id} />
-            <Button size="xs" variant="subtle">
-              删除
-            </Button>
+            <Update
+              min={value.currentAmount}
+              max={value.totalAmount}
+              id={value.id}
+            />
+            <Delete id={value.id} name={value.name} />
           </Group>
         </td>
       </tr>
@@ -94,8 +110,7 @@ export default function TodoList() {
           <tr>
             <th>名称</th>
             <th>开始时间</th>
-            <th>预计结束时间</th>
-            <th>结束时间</th>
+            <th>（预计）结束时间</th>
             <th>进度</th>
             <th>操作</th>
           </tr>
