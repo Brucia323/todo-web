@@ -42,7 +42,7 @@ export default function TodoList() {
   const { data } = useSWR(
     value ? ['/api/todo', value.token] : null,
     ([input, token]) => fetcher(input, token),
-    { refreshInterval: 1 }
+    { refreshInterval: 1000 }
   );
 
   const rows = data?.map((value) => {
@@ -74,9 +74,7 @@ export default function TodoList() {
               plannedEndTime={new Date(value.plannedEndTime ?? '')}
               description={value.description ?? ''}
             />
-            {value.totalAmount && (
-              <Update min={value.currentAmount ?? 0} max={value.totalAmount} />
-            )}
+            <Update min={value.currentAmount ?? 0} max={value.totalAmount} id={value.id} />
             <Button size="xs" variant="subtle">
               删除
             </Button>
