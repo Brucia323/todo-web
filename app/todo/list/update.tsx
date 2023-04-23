@@ -1,9 +1,10 @@
-import { useDisclosure, useSessionStorage } from '@mantine/hooks';
-import { Dialog, Group, Button, Text, NumberInput } from '@mantine/core';
-import { useState } from 'react';
-import { HTTP_METHODS } from 'next/dist/server/web/http';
 import { UserType } from '@/lib/types';
+import { Button, Group, Modal, NumberInput, Stack } from '@mantine/core';
+import { useDisclosure, useSessionStorage } from '@mantine/hooks';
 import { notifications } from '@mantine/notifications';
+import { HTTP_METHODS } from 'next/dist/server/web/http';
+import { useRouter } from 'next/navigation';
+import { useState } from 'react';
 
 interface UpdateProps {
   min: number;
@@ -14,7 +15,7 @@ interface UpdateProps {
 export default function Update({ min, max, id }: UpdateProps) {
   const [value, setValue] = useState<number | ''>(min);
   const [loading, setLoading] = useState(false);
-  const [opened, { toggle, close }] = useDisclosure(false);
+  const [opened, { open, close }] = useDisclosure(false);
   const [user] = useSessionStorage<UserType>({ key: 'user' });
 
   const handleClick = async () => {
@@ -41,24 +42,13 @@ export default function Update({ min, max, id }: UpdateProps) {
 
   return (
     <>
-      <Group position="center">
-        <Button onClick={toggle} variant="subtle" size="xs">
-          更新
-        </Button>
-      </Group>
-
-      <Dialog
+      <Modal
         opened={opened}
-        withCloseButton
         onClose={close}
-        size="lg"
-        radius="md"
+        title="更新进度"
+        overlayProps={{ opacity: 0, blur: 8 }}
       >
-        <Text size="sm" mb="xs" weight={500}>
-          更新进度
-        </Text>
-
-        <Group align="flex-end">
+        <Stack>
           <NumberInput
             min={min}
             max={max}
@@ -66,11 +56,19 @@ export default function Update({ min, max, id }: UpdateProps) {
             type="number"
             onChange={setValue}
           />
-          <Button onClick={handleClick} loading={loading}>
-            提交
-          </Button>
-        </Group>
-      </Dialog>
+          <Group position="right">
+            <Button onClick={handleClick} loading={loading}>
+              提交
+            </Button>
+          </Group>
+        </Stack>
+      </Modal>
+
+      <Group position="center">
+        <Button onClick={open} variant="subtle" size="xs">
+          更新
+        </Button>
+      </Group>
     </>
   );
 }
