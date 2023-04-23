@@ -1,5 +1,6 @@
 'use client';
 
+import Logo from '@/app/logo';
 import { UserType } from '@/lib/types';
 import { PASSWORD } from '@/lib/utils';
 import { Button, PasswordInput, Stack, TextInput } from '@mantine/core';
@@ -64,6 +65,7 @@ export default function Login() {
 
   return (
     <Stack align="center" justify="center" h="100%">
+      <Logo />
       <form onSubmit={form.onSubmit(handleSubmit)}>
         <Stack spacing="lg">
           <TextInput
