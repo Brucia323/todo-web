@@ -33,10 +33,10 @@ interface TodoType {
 }
 
 const fetcher = async (
-  input: RequestInfo | URL,
+  url: RequestInfo | URL,
   token: string
 ): Promise<TodoType[]> => {
-  const response = await fetch(input, {
+  const response = await fetch(url, {
     method: HTTP_METHODS[0],
     headers: { Authorization: token },
   });
