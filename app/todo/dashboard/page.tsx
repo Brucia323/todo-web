@@ -1,11 +1,50 @@
 'use client';
 
-import { Button, Container } from '@mantine/core';
+import { UserType } from '@/lib/types';
+import { Card, Container, Text, Title } from '@mantine/core';
+import { useSessionStorage } from '@mantine/hooks';
+import { HTTP_METHODS } from 'next/dist/server/web/http';
+import useSWR from 'swr';
+import { Line } from '@ant-design/plots';
+
+interface EfficiencyType {
+  amount: number;
+  time: string;
+}
+
+const fetcher = async (
+  url: RequestInfo | URL,
+  token: string
+): Promise<EfficiencyType[]> => {
+  const response = await fetch(url, {
+    method: HTTP_METHODS[0],
+    headers: { Authorization: token },
+  });
+  return response.json();
+};
 
 export default function Dashboard() {
+  const [value] = useSessionStorage<UserType | undefined>({ key: 'user' });
+  const { data } = useSWR(
+    value ? ['/api/todo/efficiency', value.token] : null,
+    ([input, token]) => fetcher(input, token),
+  );
+
   return (
     <Container>
-      <Button>test</Button>
+      <Card shadow="sm" padding="lg" radius="md" withBorder>
+        <Title>效率指数</Title>
+        {data && (
+          <Line
+            data={data}
+            padding="auto"
+            xField="time"
+            yField="amount"
+            xAxis={{ tickCount: 5 }}
+            smooth={true}
+          />
+        )}
+      </Card>
     </Container>
   );
 }
