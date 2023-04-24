@@ -31,7 +31,7 @@ export default function RootStyleRegistry({
       <MantineProvider
         withGlobalStyles
         withNormalizeCSS
-        theme={{ colorScheme: 'dark' }}
+        theme={{ colorScheme: 'light' }}
       >
         <ModalsProvider labels={{ confirm: '确认', cancel: '取消' }}>
           <DatesProvider settings={{ locale: 'zh-cn' }}>
