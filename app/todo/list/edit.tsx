@@ -22,8 +22,8 @@ interface FormValue {
   id: number;
   userId: number;
   name: string;
-  beginTime: Date | null;
-  plannedEndTime: Date | null;
+  beginDate: Date | null;
+  plannedEndDate: Date | null;
   currentAmount: number;
   totalAmount: number | '';
   description: string | null;
@@ -81,13 +81,13 @@ export default function Edit(props: FormValue) {
                 clearable
                 label="开始日期"
                 valueFormat="YYYY-MM-DD"
-                {...form.getInputProps('beginTime')}
+                {...form.getInputProps('beginDate')}
               />
               <DateInput
                 clearable
                 label="计划结束时间"
                 valueFormat="YYYY-MM-DD"
-                {...form.getInputProps('plannedEndTime')}
+                {...form.getInputProps('plannedEndDate')}
               />
             </Group>
             <NumberInput
