@@ -5,30 +5,33 @@ import { usePathname } from 'next/navigation';
 import React from 'react';
 
 interface MainLinkProps {
-  href: string;
+  url: string;
   children: React.ReactNode;
 }
 
-function MainLink({ href, children }: MainLinkProps) {
+function MainLink({ url, children }: MainLinkProps) {
   const pathName = usePathname();
 
   return (
-    <Link href={href}>
-      <ActionIcon size="xl" variant={pathName === href ? 'filled' : 'subtle'}>
-        {children}
-      </ActionIcon>
-    </Link>
+    <ActionIcon
+      component={Link}
+      href={url}
+      size="xl"
+      variant={pathName === url ? 'filled' : 'subtle'}
+    >
+      {children}
+    </ActionIcon>
   );
 }
 
 const data = [
-  { label: 'dashboard', href: '/todo/dashboard', icon: <IconDashboard /> },
-  { label: 'todolist', href: '/todo/list', icon: <IconList /> },
+  { label: 'dashboard', url: '/todo/dashboard', icon: <IconDashboard /> },
+  { label: 'todolist', url: '/todo/list', icon: <IconList /> },
 ];
 
 export default function MainLinks() {
   const links = data.map((link) => (
-    <MainLink key={link.label} href={link.href}>
+    <MainLink key={link.label} url={link.url}>
       {link.icon}
     </MainLink>
   ));
