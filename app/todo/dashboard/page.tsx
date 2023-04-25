@@ -5,7 +5,6 @@ import { Card, Container, Text, Title } from '@mantine/core';
 import { useSessionStorage } from '@mantine/hooks';
 import { HTTP_METHODS } from 'next/dist/server/web/http';
 import useSWR from 'swr';
-import { Line } from '@ant-design/plots';
 
 interface EfficiencyType {
   amount: number;
@@ -34,16 +33,6 @@ export default function Dashboard() {
     <Container>
       <Card shadow="sm" padding="lg" radius="md" withBorder>
         <Title>效率指数</Title>
-        {data && (
-          <Line
-            data={data}
-            padding="auto"
-            xField="time"
-            yField="amount"
-            xAxis={{ tickCount: 5 }}
-            smooth={true}
-          />
-        )}
       </Card>
     </Container>
   );
