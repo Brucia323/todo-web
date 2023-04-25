@@ -16,6 +16,7 @@ import React, { useEffect } from 'react';
 import MainLinks from './mainLinks';
 import { UserType } from '@/lib/types';
 import Logo from '../logo';
+import Link from 'next/link';
 
 export default function Layout({ children }: { children: React.ReactNode }) {
   const [value, _setValue, removeValue] = useSessionStorage<
@@ -67,7 +68,13 @@ export default function Layout({ children }: { children: React.ReactNode }) {
                   </UnstyledButton>
                 </Menu.Target>
                 <Menu.Dropdown>
-                  <Menu.Item icon={<IconSettings2 />}>设置</Menu.Item>
+                  <Menu.Item
+                    icon={<IconSettings2 />}
+                    component={Link}
+                    href="/todo/settings"
+                  >
+                    设置
+                  </Menu.Item>
                   <Menu.Item icon={<IconLogout />} onClick={handleLogout}>
                     退出
                   </Menu.Item>
