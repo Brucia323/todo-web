@@ -53,53 +53,6 @@ export default function TodoList() {
     { refreshInterval: 1000 }
   );
 
-  const rows = data?.map((value) => {
-    const progress =
-      ((value.currentAmount ?? 0) / (value.totalAmount ?? 0)) * 100;
-    return (
-      <tr key={value.id}>
-        <td>
-          <HoverCard width={320}>
-            <HoverCard.Target>
-              <Text>{value.name}</Text>
-            </HoverCard.Target>
-            <HoverCard.Dropdown>{value.description}</HoverCard.Dropdown>
-          </HoverCard>
-        </td>
-        <td>{value.beginTime}</td>
-        <td>
-          {value.actualEndTime ? value.actualEndTime : value.plannedEndTime}
-        </td>
-        <td>
-          <Progress
-            sections={[
-              {
-                value: progress,
-                color: progress < 100 ? 'blue' : 'green',
-              },
-            ]}
-          />
-        </td>
-        <td>
-          <Group>
-            <Edit
-              {...value}
-              beginTime={new Date(value.beginTime ?? '')}
-              plannedEndTime={new Date(value.plannedEndTime ?? '')}
-              description={value.description ?? ''}
-            />
-            <Update
-              min={value.currentAmount}
-              max={value.totalAmount}
-              id={value.id}
-            />
-            <Delete id={value.id} name={value.name} />
-          </Group>
-        </td>
-      </tr>
-    );
-  });
-
   return (
     <Container>
       <Flex align="center" mih={50}>
@@ -115,7 +68,56 @@ export default function TodoList() {
             <th>操作</th>
           </tr>
         </thead>
-        <tbody>{rows}</tbody>
+        <tbody>
+          {data?.map((value) => {
+            const progress =
+              ((value.currentAmount ?? 0) / (value.totalAmount ?? 0)) * 100;
+            return (
+              <tr key={value.id}>
+                <td>
+                  <HoverCard width={320}>
+                    <HoverCard.Target>
+                      <Text>{value.name}</Text>
+                    </HoverCard.Target>
+                    <HoverCard.Dropdown>{value.description}</HoverCard.Dropdown>
+                  </HoverCard>
+                </td>
+                <td>{value.beginTime}</td>
+                <td>
+                  {value.actualEndTime
+                    ? value.actualEndTime
+                    : value.plannedEndTime}
+                </td>
+                <td>
+                  <Progress
+                    sections={[
+                      {
+                        value: progress,
+                        color: progress < 100 ? 'blue' : 'green',
+                      },
+                    ]}
+                  />
+                </td>
+                <td>
+                  <Group>
+                    <Edit
+                      {...value}
+                      beginTime={new Date(value.beginTime ?? '')}
+                      plannedEndTime={new Date(value.plannedEndTime ?? '')}
+                      description={value.description ?? ''}
+                    />
+                    <Update
+                      min={value.currentAmount}
+                      max={value.totalAmount}
+                      id={value.id}
+                    />
+                    <Delete id={value.id} name={value.name} />
+                  </Group>
+                </td>
+              </tr>
+            );
+          })}
+        </tbody>
       </Table>
     </Container>
   );
