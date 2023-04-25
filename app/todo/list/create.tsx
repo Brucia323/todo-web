@@ -21,8 +21,8 @@ import { useState } from 'react';
 
 interface FormValue {
   name: string;
-  beginTime: Date;
-  plannedEndTime: Date;
+  beginDate: Date;
+  plannedEndDate: Date;
   totalAmount: number | '';
   description: string;
 }
@@ -80,13 +80,13 @@ export default function Create() {
                 clearable
                 label="开始日期"
                 valueFormat="YYYY-MM-DD"
-                {...form.getInputProps('beginTime')}
+                {...form.getInputProps('beginDate')}
               />
               <DateInput
                 clearable
                 label="计划结束时间"
                 valueFormat="YYYY-MM-DD"
-                {...form.getInputProps('plannedEndTime')}
+                {...form.getInputProps('plannedEndDate')}
               />
             </Group>
             <NumberInput
