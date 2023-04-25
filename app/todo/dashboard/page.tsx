@@ -44,7 +44,7 @@ export default function Dashboard() {
       <Stack>
         <Card shadow="md">
           <ResponsiveContainer width="100%" height={320}>
-            <AreaChart height={250} data={data}>
+            <AreaChart data={data}>
               <defs>
                 <linearGradient id="amount" x1="0" y1="0" x2="0" y2="1">
                   <stop offset="5%" stopColor="#228BE6" stopOpacity={0.4} />
