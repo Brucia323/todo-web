@@ -22,9 +22,9 @@ interface TodoType {
   id: number;
   userId: number;
   name: string;
-  beginTime: string | null;
-  plannedEndTime: string | null;
-  actualEndTime: string | null;
+  beginDate: string | null;
+  plannedEndDate: string | null;
+  actualEndDate: string | null;
   currentAmount: number;
   totalAmount: number;
   description: string | null;
@@ -69,24 +69,24 @@ export default function TodoList() {
           </tr>
         </thead>
         <tbody>
-          {data?.map((value) => {
+          {data?.map?.((todo) => {
             const progress =
-              ((value.currentAmount ?? 0) / (value.totalAmount ?? 0)) * 100;
+              ((todo.currentAmount ?? 0) / (todo.totalAmount ?? 0)) * 100;
             return (
-              <tr key={value.id}>
+              <tr key={todo.id}>
                 <td>
                   <HoverCard width={320}>
                     <HoverCard.Target>
-                      <Text>{value.name}</Text>
+                      <Text>{todo.name}</Text>
                     </HoverCard.Target>
-                    <HoverCard.Dropdown>{value.description}</HoverCard.Dropdown>
+                    <HoverCard.Dropdown>{todo.description}</HoverCard.Dropdown>
                   </HoverCard>
                 </td>
-                <td>{value.beginTime}</td>
+                <td>{todo.beginDate}</td>
                 <td>
-                  {value.actualEndTime
-                    ? value.actualEndTime
-                    : value.plannedEndTime}
+                  {todo.actualEndDate
+                    ? todo.actualEndDate
+                    : todo.plannedEndDate}
                 </td>
                 <td>
                   <Progress
@@ -101,17 +101,17 @@ export default function TodoList() {
                 <td>
                   <Group>
                     <Edit
-                      {...value}
-                      beginTime={new Date(value.beginTime ?? '')}
-                      plannedEndTime={new Date(value.plannedEndTime ?? '')}
-                      description={value.description ?? ''}
+                      {...todo}
+                      beginDate={new Date(todo.beginDate ?? '')}
+                      plannedEndDate={new Date(todo.plannedEndDate ?? '')}
+                      description={todo.description ?? ''}
                     />
                     <Update
-                      min={value.currentAmount}
-                      max={value.totalAmount}
-                      id={value.id}
+                      min={todo.currentAmount}
+                      max={todo.totalAmount}
+                      id={todo.id}
                     />
-                    <Delete id={value.id} name={value.name} />
+                    <Delete id={todo.id} name={todo.name} />
                   </Group>
                 </td>
               </tr>
