@@ -75,12 +75,20 @@ export default function TodoList() {
             return (
               <tr key={todo.id}>
                 <td>
-                  <HoverCard width={320}>
-                    <HoverCard.Target>
-                      <Text>{todo.name}</Text>
-                    </HoverCard.Target>
-                    <HoverCard.Dropdown>{todo.description}</HoverCard.Dropdown>
-                  </HoverCard>
+                  {todo.description?.length ? (
+                    <HoverCard>
+                      <HoverCard.Target>
+                        <Text>{todo.name}</Text>
+                      </HoverCard.Target>
+                      <HoverCard.Dropdown sx={{ maxWidth: 320 }}>
+                        {todo.description.split('\n').map((value) => (
+                          <Text key={value}>{value}</Text>
+                        ))}
+                      </HoverCard.Dropdown>
+                    </HoverCard>
+                  ) : (
+                    <Text>{todo.name}</Text>
+                  )}
                 </td>
                 <td>{todo.beginDate}</td>
                 <td>
