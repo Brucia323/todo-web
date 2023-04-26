@@ -5,7 +5,7 @@ export default function Logo() {
     <Text
       variant="gradient"
       gradient={{ from: 'indigo', to: 'cyan', deg: 45 }}
-      sx={{ fontFamily: 'Greycliff CF, sans-serif' }}
+      sx={{ fontFamily: 'Greycliff CF, sans-serif', cursor: 'default' }}
       ta="center"
       fz="xl"
       fw={700}
