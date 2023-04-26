@@ -6,6 +6,7 @@ import {
   Flex,
   Group,
   HoverCard,
+  LoadingOverlay,
   Progress,
   Table,
   Text,
@@ -47,7 +48,7 @@ export default function TodoList() {
   const [value] = useSessionStorage<UserType | undefined>({
     key: 'user',
   });
-  const { data } = useSWR(
+  const { data, isLoading } = useSWR(
     value ? ['/api/todo', value.token] : null,
     ([input, token]) => fetcher(input, token),
     { refreshInterval: 1000 }
@@ -59,6 +60,7 @@ export default function TodoList() {
         <Create />
       </Flex>
       <Table highlightOnHover>
+        <LoadingOverlay visible={isLoading} overlayBlur={8} />
         <thead>
           <tr>
             <th>名称</th>
@@ -70,8 +72,7 @@ export default function TodoList() {
         </thead>
         <tbody>
           {data?.map?.((todo) => {
-            const progress =
-              ((todo.currentAmount ?? 0) / (todo.totalAmount ?? 0)) * 100;
+            const progress = (todo.currentAmount / todo.totalAmount) * 100;
             return (
               <tr key={todo.id}>
                 <td>
