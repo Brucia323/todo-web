@@ -6,7 +6,6 @@ import {
   Drawer,
   Flex,
   Group,
-  Modal,
   NumberInput,
   Stack,
   TextInput,
