@@ -24,10 +24,10 @@ export default function Home() {
             <Logo />
             <Flex gap="md" align="center" h="100%">
               <Link href="/user/login">
-                <Button variant="default">登录</Button>
+                <Button variant="subtle">登录</Button>
               </Link>
               <Link href="/user/sign-up">
-                <Button>注册</Button>
+                <Button variant="default">注册</Button>
               </Link>
             </Flex>
           </Group>
