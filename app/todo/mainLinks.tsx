@@ -1,4 +1,4 @@
-import { ActionIcon, NavLink } from '@mantine/core';
+import { NavLink, Stack } from '@mantine/core';
 import { IconDashboard, IconList } from '@tabler/icons-react';
 import Link from 'next/link';
 import { usePathname } from 'next/navigation';
@@ -20,7 +20,7 @@ function MainLink({ url, icon }: MainLinkProps) {
       variant="filled"
       icon={icon}
       styles={{ icon: { margin: 0 } }}
-      sx={{ borderRadius: '0.5rem' }}
+      sx={{ borderRadius: '0.5rem', width: "3rem", height: "3rem" }}
     />
   );
 }
@@ -35,5 +35,5 @@ export default function MainLinks() {
     <MainLink key={link.label} url={link.url} icon={link.icon} />
   ));
 
-  return <div>{links}</div>;
+  return <Stack>{links}</Stack>;
 }
