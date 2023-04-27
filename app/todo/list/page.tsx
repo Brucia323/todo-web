@@ -93,9 +93,7 @@ export default function TodoList() {
                 </td>
                 <td>{todo.beginDate}</td>
                 <td>
-                  {todo.actualEndDate
-                    ? todo.actualEndDate
-                    : todo.plannedEndDate}
+                  {progress < 100 ? todo.plannedEndDate : todo.actualEndDate}
                 </td>
                 <td>
                   <Progress
@@ -111,9 +109,14 @@ export default function TodoList() {
                   <Group>
                     <Edit
                       {...todo}
-                      beginDate={new Date(todo.beginDate ?? '')}
-                      plannedEndDate={new Date(todo.plannedEndDate ?? '')}
-                      description={todo.description ?? ''}
+                      beginDate={
+                        todo.beginDate ? new Date(todo.beginDate) : null
+                      }
+                      plannedEndDate={
+                        todo.plannedEndDate
+                          ? new Date(todo.plannedEndDate)
+                          : null
+                      }
                     />
                     <Update
                       min={todo.currentAmount}
