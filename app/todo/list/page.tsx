@@ -41,7 +41,11 @@ const fetcher = async (
     method: HTTP_METHODS[0],
     headers: { Authorization: token },
   });
-  return response.json();
+  if (response.ok) {
+    return response.json();
+  } else {
+    throw new Error(response.statusText);
+  }
 };
 
 export default function TodoList() {
@@ -50,7 +54,7 @@ export default function TodoList() {
   });
   const { data, isLoading } = useSWR(
     value ? ['/api/todo', value.token] : null,
-    ([input, token]) => fetcher(input, token),
+    ([url, token]) => fetcher(url, token),
     { refreshInterval: 1000 }
   );
 
@@ -59,8 +63,8 @@ export default function TodoList() {
       <Flex align="center" mih={50}>
         <Create />
       </Flex>
+      <LoadingOverlay visible={isLoading} overlayBlur={8} />
       <Table highlightOnHover>
-        <LoadingOverlay visible={isLoading} overlayBlur={8} />
         <thead>
           <tr>
             <th>名称</th>
