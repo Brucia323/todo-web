@@ -3,7 +3,6 @@ import { Button, Group, Modal, NumberInput, Stack } from '@mantine/core';
 import { useDisclosure, useSessionStorage } from '@mantine/hooks';
 import { notifications } from '@mantine/notifications';
 import { HTTP_METHODS } from 'next/dist/server/web/http';
-import { useRouter } from 'next/navigation';
 import { useState } from 'react';
 
 interface UpdateProps {
@@ -64,11 +63,9 @@ export default function Update({ min, max, id }: UpdateProps) {
         </Stack>
       </Modal>
 
-      <Group position="center">
-        <Button onClick={open} variant="subtle" size="xs">
-          更新
-        </Button>
-      </Group>
+      <Button onClick={open} variant="subtle" size="xs">
+        更新
+      </Button>
     </>
   );
 }
