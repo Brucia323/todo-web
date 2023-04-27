@@ -31,7 +31,7 @@ export default function SignUp() {
   });
 
   const handleSubmit = async (values: FormValues) => {
-    const response = await fetch('/api/user/sign-up', {
+    const response = await fetch('/api/user', {
       method: HTTP_METHODS[3],
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify(values),
