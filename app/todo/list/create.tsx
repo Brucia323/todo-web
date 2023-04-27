@@ -20,8 +20,8 @@ import { useState } from 'react';
 
 interface FormValue {
   name: string;
-  beginDate: Date;
-  plannedEndDate: Date;
+  beginDate: Date | null;
+  plannedEndDate: Date | null;
   totalAmount: number | '';
   description: string;
 }
@@ -29,7 +29,15 @@ interface FormValue {
 export default function Create() {
   const [value] = useSessionStorage<UserType>({ key: 'user' });
   const [opened, { open, close }] = useDisclosure(false);
-  const form = useForm<FormValue>({});
+  const form = useForm<FormValue>({
+    initialValues: {
+      name: '',
+      beginDate: null,
+      plannedEndDate: null,
+      totalAmount: '',
+      description: '',
+    },
+  });
   const [loading, setLoading] = useState(false);
 
   const handleSubmit = async (values: FormValue) => {
