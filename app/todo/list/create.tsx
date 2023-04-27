@@ -80,6 +80,7 @@ export default function Create() {
               label="名称"
               required
               withAsterisk
+              maxLength={15}
               {...form.getInputProps('name')}
             />
             <Group grow>
