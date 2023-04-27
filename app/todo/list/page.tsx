@@ -81,7 +81,7 @@ export default function TodoList() {
               <tr key={todo.id}>
                 <td>
                   {todo.description?.length ? (
-                    <HoverCard>
+                    <HoverCard position="bottom-start">
                       <HoverCard.Target>
                         <Text>{todo.name}</Text>
                       </HoverCard.Target>
@@ -110,7 +110,6 @@ export default function TodoList() {
                   />
                 </td>
                 <td>
-                  <Group>
                     <Edit
                       {...todo}
                       beginDate={
@@ -128,7 +127,6 @@ export default function TodoList() {
                       id={todo.id}
                     />
                     <Delete id={todo.id} name={todo.name} />
-                  </Group>
                 </td>
               </tr>
             );
