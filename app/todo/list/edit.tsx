@@ -74,6 +74,7 @@ export default function Edit(props: FormValue) {
               label="名称"
               required
               withAsterisk
+              maxLength={15}
               {...form.getInputProps('name')}
             />
             <Group grow>
@@ -112,11 +113,9 @@ export default function Edit(props: FormValue) {
         </form>
       </Drawer>
 
-      <Group position="center">
-        <Button onClick={open} size="xs" variant="subtle">
-          编辑
-        </Button>
-      </Group>
+      <Button onClick={open} size="xs" variant="subtle">
+        编辑
+      </Button>
     </>
   );
 }
