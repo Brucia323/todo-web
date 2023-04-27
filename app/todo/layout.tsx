@@ -9,32 +9,29 @@ import {
   Navbar,
   UnstyledButton,
 } from '@mantine/core';
-import { useSessionStorage } from '@mantine/hooks';
+import { useDidUpdate, useIdle, useSessionStorage } from '@mantine/hooks';
 import { IconLogout, IconMenu2, IconSettings2 } from '@tabler/icons-react';
-import { useRouter } from 'next/navigation';
+import { usePathname, useRouter } from 'next/navigation';
 import React, { useEffect } from 'react';
 import MainLinks from './mainLinks';
 import { UserType } from '@/lib/types';
 import Logo from '../logo';
 import Link from 'next/link';
+import { notifications } from '@mantine/notifications';
 
 export default function Layout({ children }: { children: React.ReactNode }) {
   const [value, _setValue, removeValue] = useSessionStorage<
     UserType | undefined
   >({ key: 'user' });
   const router = useRouter();
+  const idle=useIdle(1000)
 
-  useEffect(() => {
-    if (
-      typeof window !== 'undefined' &&
-      'sessionStorage' in window &&
-      window.sessionStorage !== null &&
-      value === undefined
-    ) {
-      console.log('user undefined');
-      // router.push('/');
+  useDidUpdate(() => {
+    if (value === undefined) {
+      notifications.show({ message: '未登录', color: 'red' });
+      router.push('/');
     }
-  }, [router, value]);
+  }, [idle]);
 
   const handleLogout = () => {
     removeValue();
