@@ -18,7 +18,9 @@ export default function Settings() {
             <Tabs.Tab value="time">你的时间</Tabs.Tab>
             <Tabs.Tab value="personal">个人设置</Tabs.Tab>
           </Tabs.List>
-          <Time />
+          <Tabs.Panel value="time">
+            <Time />
+          </Tabs.Panel>
           <Tabs.Panel value="personal" pt="xs">
             Messages tab content
           </Tabs.Panel>
