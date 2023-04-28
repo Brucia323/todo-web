@@ -16,9 +16,10 @@ export default function Delete({ id, name }: DeleteProps) {
   const openModal = () =>
     modals.openConfirmModal({
       title: '删除任务',
+      centered: true,
       children: <Text size="sm">你确定要删除【{name}】吗?</Text>,
       confirmProps: { color: 'red' },
-      overlayProps: { opacity: 0, blur: 8 },
+      overlayProps: { opacity: 0.75, blur: 8 },
       onConfirm: async () => {
         try {
           const response = await fetch(`/api/todo/${id}`, {
