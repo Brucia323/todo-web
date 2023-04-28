@@ -15,10 +15,11 @@ import { DateInput } from '@mantine/dates';
 import { useForm } from '@mantine/form';
 import { useDisclosure, useSessionStorage } from '@mantine/hooks';
 import { notifications } from '@mantine/notifications';
+import dayjs from 'dayjs';
 import { HTTP_METHODS } from 'next/dist/server/web/http';
 import { useState } from 'react';
 
-interface FormValue {
+interface FormValues {
   id: number;
   userId: number;
   name: string;
@@ -29,13 +30,25 @@ interface FormValue {
   description: string | null;
 }
 
-export default function Edit(props: FormValue) {
+export default function Edit(props: FormValues) {
   const [value] = useSessionStorage<UserType>({ key: 'user' });
   const [opened, { open, close }] = useDisclosure(false);
-  const form = useForm<FormValue>({ initialValues: { ...props } });
+  const form = useForm<FormValues>({
+    initialValues: { ...props },
+    validate: {
+      beginDate: (value, values, path) =>
+        dayjs(value).isBefore(values.plannedEndDate)
+          ? null
+          : '开始时间不得晚于预计结束时间',
+      plannedEndDate: (value, values) =>
+        dayjs(value).isAfter(values.beginDate)
+          ? null
+          : '预计结束时间不得早于开始时间',
+    },
+  });
   const [loading, setLoading] = useState(false);
 
-  const handleSubmit = async (values: FormValue) => {
+  const handleSubmit = async (values: FormValues) => {
     try {
       setLoading(true);
       const response = await fetch('/api/todo', {
@@ -51,6 +64,7 @@ export default function Edit(props: FormValue) {
           message: '修改成功',
           color: 'green',
         });
+        form.reset();
         close();
       }
     } catch {
@@ -60,13 +74,18 @@ export default function Edit(props: FormValue) {
     }
   };
 
+  const handleClose = () => {
+    form.reset();
+    close();
+  };
+
   return (
     <>
       <Drawer
+        onClose={handleClose}
         opened={opened}
-        onClose={close}
         title="修改任务"
-        overlayProps={{ opacity: 0, blur: 8 }}
+        overlayProps={{ opacity: 0.75, blur: 8 }}
       >
         <form onSubmit={form.onSubmit(handleSubmit)}>
           <Stack>
