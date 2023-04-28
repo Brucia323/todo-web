@@ -1,5 +1,12 @@
 import { UserType } from '@/lib/types';
-import { Button, Group, Modal, NumberInput, Stack } from '@mantine/core';
+import {
+  Button,
+  Divider,
+  Group,
+  Modal,
+  NumberInput,
+  Stack,
+} from '@mantine/core';
 import { useDisclosure, useSessionStorage } from '@mantine/hooks';
 import { notifications } from '@mantine/notifications';
 import { HTTP_METHODS } from 'next/dist/server/web/http';
@@ -42,10 +49,11 @@ export default function Update({ min, max, id }: UpdateProps) {
   return (
     <>
       <Modal
+        centered
         opened={opened}
         onClose={close}
         title="更新进度"
-        overlayProps={{ opacity: 0, blur: 8 }}
+        overlayProps={{ opacity: 0.75, blur: 8 }}
       >
         <Stack>
           <NumberInput
