@@ -24,7 +24,7 @@ import { HTTP_METHODS } from 'next/dist/server/web/http';
 import { useState } from 'react';
 import useSWR from 'swr';
 
-interface FormValue {
+interface FormValues {
   dayOfWeek: string[];
   beginTime: string;
   endTime: string;
@@ -73,19 +73,25 @@ export default function Time() {
     }
   );
 
-  const form = useForm<FormValue>({
+  const form = useForm<FormValues>({
     initialValues: {
       dayOfWeek: [],
       beginTime: '',
       endTime: '',
     },
     validate: {
-      beginTime: (value, values) => dayjs(value).isBefore(values.endTime),
-      endTime: (value, values) => dayjs(value).isAfter(values.beginTime),
+      beginTime: (value, values) =>
+        dayjs(value).isBefore(values.endTime)
+          ? null
+          : '开始时间不得晚于结束时间',
+      endTime: (value, values) =>
+        dayjs(value).isAfter(values.beginTime)
+          ? null
+          : '结束时间不得早于开始时间',
     },
   });
 
-  const handleSubmit = async (values: FormValue) => {
+  const handleSubmit = async (values: FormValues) => {
     try {
       setSubmitLoading(true);
       const dayOfWeek = values.dayOfWeek.sort((a, b) => Number(a) - Number(b));
