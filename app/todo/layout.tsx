@@ -11,11 +11,11 @@ import {
 } from '@mantine/core';
 import { useDidUpdate, useIdle, useSessionStorage } from '@mantine/hooks';
 import { IconLogout, IconMenu2, IconSettings2 } from '@tabler/icons-react';
-import { usePathname, useRouter } from 'next/navigation';
-import React, { useEffect } from 'react';
-import MainLinks from './mainLinks';
+import { useRouter } from 'next/navigation';
+import React from 'react';
+import MainLinks from '@/components/mainLinks';
 import { UserType } from '@/lib/types';
-import Logo from '../logo';
+import Logo from '@/components/logo';
 import Link from 'next/link';
 import { notifications } from '@mantine/notifications';
 
@@ -24,7 +24,7 @@ export default function Layout({ children }: { children: React.ReactNode }) {
     UserType | undefined
   >({ key: 'user' });
   const router = useRouter();
-  const idle=useIdle(1000)
+  const idle = useIdle(1000);
 
   useDidUpdate(() => {
     if (value === undefined) {
