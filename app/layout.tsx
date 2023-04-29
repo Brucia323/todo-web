@@ -1,6 +1,6 @@
 import { Analytics } from '@vercel/analytics/react';
 import React from 'react';
-import RootStyleRegistry from './emotion';
+import RootStyleRegistry from '@/components/emotion';
 
 export const metadata = {
   title: 'Todo',
