@@ -1,11 +1,11 @@
 'use client';
 
-import { Container, Stack, Title } from '@mantine/core';
+import { Title } from '@mantine/core';
 import { HTTP_METHODS } from 'next/dist/server/web/http';
-import Efficiency from './efficiency';
 import useSWR from 'swr';
 import { useSessionStorage } from '@mantine/hooks';
 import { UserType } from '@/lib/types';
+import React from 'react';
 
 const fetcher = async (url: RequestInfo | URL, token: string) => {
   const response = await fetch(url, {
@@ -25,12 +25,5 @@ export default function Dashboard() {
     ([url, token]) => fetcher(url, token)
   );
 
-  return (
-    <Container>
-      <Stack>
-        <Title>你好{data && `，${data.name}`}</Title>
-        <Efficiency />
-      </Stack>
-    </Container>
-  );
+  return <Title>你好{data && `，${data.name}`}</Title>;
 }
