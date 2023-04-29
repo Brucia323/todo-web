@@ -1,6 +1,6 @@
 'use client';
 
-import Logo from '@/app/logo';
+import Logo from '@/components/logo';
 import { UserType } from '@/lib/types';
 import { PASSWORD } from '@/lib/utils';
 import { Button, PasswordInput, Stack, TextInput } from '@mantine/core';
@@ -74,6 +74,7 @@ export default function Login() {
             {...form.getInputProps('email')}
           />
           <PasswordInput
+            description="以字母开头，长度在6~18之间，只能包含字母、数字和下划线"
             placeholder="密码"
             icon={<IconPassword />}
             {...form.getInputProps('password')}
