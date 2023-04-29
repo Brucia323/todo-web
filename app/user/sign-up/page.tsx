@@ -1,6 +1,6 @@
 'use client';
 
-import Logo from '@/app/logo';
+import Logo from '@/components/logo';
 import { PASSWORD } from '@/lib/utils';
 import {
   Button,
@@ -119,6 +119,7 @@ export default function SignUp() {
             {...form.getInputProps('email')}
           />
           <PasswordInput
+            description="以字母开头，长度在6~18之间，只能包含字母、数字和下划线"
             placeholder="密码"
             icon={<IconPassword />}
             {...form.getInputProps('password')}
