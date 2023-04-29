@@ -1,10 +1,10 @@
 'use client';
 
+import Delete from '@/components/delete';
+import Edit from '@/components/edit';
+import Update from '@/components/update';
 import { UserType } from '@/lib/types';
 import {
-  Container,
-  Flex,
-  Group,
   HoverCard,
   LoadingOverlay,
   Progress,
@@ -14,10 +14,6 @@ import {
 import { useSessionStorage } from '@mantine/hooks';
 import { HTTP_METHODS } from 'next/dist/server/web/http';
 import useSWR from 'swr';
-import Create from './create';
-import Delete from './delete';
-import Edit from './edit';
-import Update from './update';
 
 interface TodoType {
   id: number;
@@ -48,21 +44,18 @@ const fetcher = async (
   }
 };
 
-export default function TodoList() {
-  const [value] = useSessionStorage<UserType | undefined>({
-    key: 'user',
-  });
-  const { data, isLoading } = useSWR(
-    value ? ['/api/todo', value.token] : null,
-    ([url, token]) => fetcher(url, token),
-    { refreshInterval: 1000 }
-  );
-
+export default function Todolist() {
+    const [value] = useSessionStorage<UserType | undefined>({
+      key: 'user',
+    });
+    const { data, isLoading } = useSWR(
+      value ? ['/api/todo', value.token] : null,
+      ([url, token]) => fetcher(url, token),
+      { refreshInterval: 1000 }
+    );
+  
   return (
-    <Container>
-      <Flex align="center" mih={50}>
-        <Create />
-      </Flex>
+    <>
       <LoadingOverlay visible={isLoading} overlayBlur={8} />
       <Table highlightOnHover>
         <thead>
@@ -110,29 +103,25 @@ export default function TodoList() {
                   />
                 </td>
                 <td>
-                    <Edit
-                      {...todo}
-                      beginDate={
-                        todo.beginDate ? new Date(todo.beginDate) : null
-                      }
-                      plannedEndDate={
-                        todo.plannedEndDate
-                          ? new Date(todo.plannedEndDate)
-                          : null
-                      }
-                    />
-                    <Update
-                      min={todo.currentAmount}
-                      max={todo.totalAmount}
-                      id={todo.id}
-                    />
-                    <Delete id={todo.id} name={todo.name} />
+                  <Edit
+                    {...todo}
+                    beginDate={todo.beginDate ? new Date(todo.beginDate) : null}
+                    plannedEndDate={
+                      todo.plannedEndDate ? new Date(todo.plannedEndDate) : null
+                    }
+                  />
+                  <Update
+                    min={todo.currentAmount}
+                    max={todo.totalAmount}
+                    id={todo.id}
+                  />
+                  <Delete id={todo.id} name={todo.name} />
                 </td>
               </tr>
             );
           })}
         </tbody>
       </Table>
-    </Container>
+    </>
   );
 }
