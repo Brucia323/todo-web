@@ -1,7 +1,7 @@
 'use client';
 
 import { UserType } from '@/lib/types';
-import { Card, Divider, Stack, Title } from '@mantine/core';
+import { Card, Center, Divider, Stack, Title } from '@mantine/core';
 import { useSessionStorage } from '@mantine/hooks';
 import { HTTP_METHODS } from 'next/dist/server/web/http';
 import useSWR from 'swr';
@@ -30,7 +30,7 @@ const fetcher = async (
 
 export default function Efficiency() {
   const [value] = useSessionStorage<UserType | undefined>({ key: 'user' });
-  const { data } = useSWR(
+  const { data, isLoading } = useSWR(
     value ? ['/api/todo/efficiency', value.token] : null,
     ([input, token]) => fetcher(input, token)
   );
@@ -40,7 +40,16 @@ export default function Efficiency() {
       <Stack>
         <Title order={2}>效率指数</Title>
         <Divider />
-        <AreaChart data={data} index="time" catogory="amount" name="效率指数" />
+        {data?.length ? (
+          <AreaChart
+            data={data}
+            index="time"
+            catogory="amount"
+            name="效率指数"
+          />
+        ) : (
+          <Center>暂无数据</Center>
+        )}
       </Stack>
     </Card>
   );
