@@ -1,6 +1,6 @@
 'use client';
 
-import { Title } from '@mantine/core';
+import { Skeleton, Text, Title } from '@mantine/core';
 import { HTTP_METHODS } from 'next/dist/server/web/http';
 import useSWR from 'swr';
 import { useSessionStorage } from '@mantine/hooks';
@@ -25,5 +25,5 @@ export default function Dashboard() {
     ([url, token]) => fetcher(url, token)
   );
 
-  return <Title>你好{data && `，${data.name}`}</Title>;
+  return <Title display="flex">你好{data ? `，${data.name}` : <Skeleton width={200} height={44} />}</Title>;
 }
