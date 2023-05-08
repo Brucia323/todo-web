@@ -45,15 +45,14 @@ const fetcher = async (
 };
 
 export default function Todolist() {
-    const [value] = useSessionStorage<UserType | undefined>({
-      key: 'user',
-    });
-    const { data, isLoading } = useSWR(
-      value ? ['/api/todo', value.token] : null,
-      ([url, token]) => fetcher(url, token),
-      { refreshInterval: 1000 }
-    );
-  
+  const [value] = useSessionStorage<UserType | undefined>({
+    key: 'user',
+  });
+  const { data, isLoading } = useSWR(
+    value ? ['/api/todo', value.token] : null,
+    ([url, token]) => fetcher(url, token),
+  );
+
   return (
     <>
       <LoadingOverlay visible={isLoading} overlayBlur={8} />
