@@ -51,6 +51,7 @@ export default function Todolist() {
   const { data, isLoading } = useSWR(
     value ? ['/api/todo', value.token] : null,
     ([url, token]) => fetcher(url, token),
+    { refreshInterval: 1000 }
   );
 
   return (
