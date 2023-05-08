@@ -17,7 +17,7 @@ import { useDisclosure, useSessionStorage } from '@mantine/hooks';
 import { notifications } from '@mantine/notifications';
 import dayjs from 'dayjs';
 import { HTTP_METHODS } from 'next/dist/server/web/http';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 
 interface FormValues {
   name: string;
@@ -60,7 +60,11 @@ export default function Create() {
           Authorization: value.token,
           'Content-Type': 'application/json',
         },
-        body: JSON.stringify(values),
+        body: JSON.stringify({
+          ...values,
+          beginDate: dayjs.tz(values.beginDate).utc(true),
+          plannedEndDate: dayjs.tz(values.plannedEndDate).utc(true),
+        }),
       });
       if (response.status === 201) {
         notifications.show({
