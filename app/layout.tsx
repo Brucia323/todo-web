@@ -1,6 +1,9 @@
 import { Analytics } from '@vercel/analytics/react';
 import React from 'react';
 import RootStyleRegistry from '@/components/emotion';
+import ModalsRegistry from '@/components/modals';
+import DatesRegistry from '@/components/dates';
+import NotificationsRegistry from '@/components/notifications';
 
 export const metadata = {
   title: 'Todo',
@@ -15,7 +18,14 @@ export default function RootLayout({
   return (
     <html lang="zh-Hans-CN">
       <body>
-        <RootStyleRegistry>{children}</RootStyleRegistry>
+        <RootStyleRegistry>
+          <ModalsRegistry>
+            <DatesRegistry>
+              {children}
+              <NotificationsRegistry />
+            </DatesRegistry>
+          </ModalsRegistry>
+        </RootStyleRegistry>
         <Analytics />
       </body>
     </html>
