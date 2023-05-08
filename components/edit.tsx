@@ -17,7 +17,7 @@ import { useDisclosure, useSessionStorage } from '@mantine/hooks';
 import { notifications } from '@mantine/notifications';
 import dayjs from 'dayjs';
 import { HTTP_METHODS } from 'next/dist/server/web/http';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 
 interface FormValues {
   id: number;
@@ -37,13 +37,13 @@ export default function Edit(props: FormValues) {
     initialValues: { ...props },
     validate: {
       beginDate: (value, values, path) =>
-        dayjs(value).isBefore(values.plannedEndDate)
-          ? null
-          : '开始时间不得晚于预计结束时间',
+        dayjs(value).isAfter(values.plannedEndDate)
+          ? '开始时间不得晚于预计结束时间'
+          : null,
       plannedEndDate: (value, values) =>
-        dayjs(value).isAfter(values.beginDate)
-          ? null
-          : '预计结束时间不得早于开始时间',
+        dayjs(value).isBefore(values.beginDate)
+          ? '预计结束时间不得早于开始时间'
+          : null,
     },
   });
   const [loading, setLoading] = useState(false);
