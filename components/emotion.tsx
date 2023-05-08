@@ -4,10 +4,6 @@ import { CacheProvider } from '@emotion/react';
 import { MantineProvider, useEmotionCache } from '@mantine/core';
 import { useServerInsertedHTML } from 'next/navigation';
 import React from 'react';
-import { Notifications } from '@mantine/notifications';
-import { ModalsProvider } from '@mantine/modals';
-import { DatesProvider } from '@mantine/dates';
-import 'dayjs/locale/zh-cn';
 
 export default function RootStyleRegistry({
   children,
@@ -33,12 +29,7 @@ export default function RootStyleRegistry({
         withNormalizeCSS
         theme={{ defaultRadius: 'md' }}
       >
-        <ModalsProvider labels={{ confirm: '确认', cancel: '取消' }}>
-          <DatesProvider settings={{ locale: 'zh-cn' }}>
-            {children}
-          </DatesProvider>
-        </ModalsProvider>
-        <Notifications />
+        {children}
       </MantineProvider>
     </CacheProvider>
   );
