@@ -30,7 +30,7 @@ const fetcher = async (
 
 export default function Efficiency() {
   const [value] = useSessionStorage<UserType | undefined>({ key: 'user' });
-  const { data, isLoading } = useSWR(
+  const { data } = useSWR(
     value ? ['/api/todo/efficiency', value.token] : null,
     ([input, token]) => fetcher(input, token)
   );
