@@ -22,7 +22,7 @@ const fetcher = async (
     headers: { Authorization: token },
   });
   if (response.ok) {
-    return response.json();
+    return await response.json();
   } else {
     throw new Error(response.statusText);
   }
@@ -30,26 +30,19 @@ const fetcher = async (
 
 export default function Efficiency() {
   const [value] = useSessionStorage<UserType | undefined>({ key: 'user' });
-  const { data } = useSWR(
+  const { data, error } = useSWR(
     value ? ['/api/todo/efficiency', value.token] : null,
     ([input, token]) => fetcher(input, token)
   );
+
+  if (error || !data || data.length === 0) return <></>;
 
   return (
     <Card shadow="md" withBorder>
       <Stack>
         <Title order={2}>效率指数</Title>
         <Divider />
-        {data?.length ? (
-          <AreaChart
-            data={data}
-            index="time"
-            catogory="amount"
-            name="效率指数"
-          />
-        ) : (
-          <Center>暂无数据</Center>
-        )}
+        <AreaChart data={data} index="time" catogory="amount" name="效率指数" />
       </Stack>
     </Card>
   );
