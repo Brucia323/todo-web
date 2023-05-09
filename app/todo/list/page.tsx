@@ -15,7 +15,7 @@ import { useSessionStorage } from '@mantine/hooks';
 import { HTTP_METHODS } from 'next/dist/server/web/http';
 import useSWR from 'swr';
 
-interface TodoType {
+export interface TodoType {
   id: number;
   userId: number;
   name: string;
