@@ -57,7 +57,7 @@ export default function Time() {
 
   const [value] = useSessionStorage<UserType>({ key: 'user' });
 
-  const { data } = useSWR(
+  useSWR(
     value ? ['/api/user', value.token] : null,
     ([url, token]) => fetcher(url, token),
     {
@@ -81,13 +81,11 @@ export default function Time() {
     },
     validate: {
       beginTime: (value, values) =>
-        dayjs(value).isBefore(values.endTime)
-          ? null
-          : '开始时间不得晚于结束时间',
+        dayjs(value, 'HH:mm').isAfter(dayjs(values.endTime, 'HH:mm'), 'h') &&
+        '开始时间不得晚于结束时间',
       endTime: (value, values) =>
-        dayjs(value).isAfter(values.beginTime)
-          ? null
-          : '结束时间不得早于开始时间',
+        dayjs(value, 'HH:mm').isBefore(dayjs(values.beginTime, 'HH:mm'), 'h') &&
+        '结束时间不得早于开始时间',
     },
   });
 
@@ -168,7 +166,8 @@ export default function Time() {
   return (
     <Stack>
       <Text c="dimmed">
-        填写时间将会启动 AI 功能，该功能可能需要收集你的数据。
+        填写时间将会启动 AI{' '}
+        功能，该功能可能需要收集你的数据。（暂时只支持同一时间段）
       </Text>
       <form onSubmit={form.onSubmit(handleSubmit)} onReset={handleReset}>
         <Stack>
@@ -182,13 +181,13 @@ export default function Time() {
           />
           <Group grow>
             <TimeInput
-              description="计划开始的时间"
+              description="该时间将用于被选择的每一天"
               icon={<IconClockPlay />}
               label="开始时间"
               {...form.getInputProps('beginTime')}
             />
             <TimeInput
-              description="计划结束的时间"
+              description="该时间将用于被选择的每一天"
               icon={<IconClockStop />}
               label="结束时间"
               {...form.getInputProps('endTime')}
