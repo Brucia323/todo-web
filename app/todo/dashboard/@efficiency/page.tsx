@@ -1,12 +1,11 @@
 'use client';
 
+import AreaChart from '@/components/AreaChart';
 import { UserType } from '@/lib/types';
-import { Card, Center, Divider, Stack, Title } from '@mantine/core';
+import { Card, Divider, Stack, Title } from '@mantine/core';
 import { useSessionStorage } from '@mantine/hooks';
 import { HTTP_METHODS } from 'next/dist/server/web/http';
 import useSWR from 'swr';
-import React from 'react';
-import AreaChart from '@/components/AreaChart';
 
 interface EfficiencyType {
   amount: number;
