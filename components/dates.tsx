@@ -7,12 +7,14 @@ import dayjs from 'dayjs';
 import utc from 'dayjs/plugin/utc';
 import timezone from 'dayjs/plugin/timezone';
 import customParseFormat from 'dayjs/plugin/customParseFormat'
+import duration from 'dayjs/plugin/duration'
 
 dayjs.locale('zh-cn');
 dayjs.extend(utc);
 dayjs.extend(timezone);
 dayjs.tz.setDefault('Asia/Shanghai');
 dayjs.extend(customParseFormat)
+dayjs.extend(duration)
 
 export default function DatesRegistry({
   children,
