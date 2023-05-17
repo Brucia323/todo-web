@@ -105,7 +105,7 @@ export default function Program() {
                     />
                   </td>
                   <td>
-                    {today < 0
+                    {duratin.asDays() < 1
                       ? todo.totalAmount - todo.currentAmount
                       : today.toFixed(0)}
                   </td>
