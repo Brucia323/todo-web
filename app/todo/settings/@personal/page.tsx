@@ -65,6 +65,7 @@ export default function Personal() {
                 </Stack>
               </form>
             </Stepper.Step>
+            
             <Stepper.Step label="输入新密码">
               <form onSubmit={secondForm.onSubmit(handleSecondSubmit)}>
                 <Stack align="center">
