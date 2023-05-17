@@ -57,7 +57,12 @@ export default function Edit(props: FormValues) {
           Authorization: value.token,
           'Content-Type': 'application/json',
         },
-        body: JSON.stringify({ ...values, currentAmount: props.currentAmount }),
+        body: JSON.stringify({
+          ...values,
+          currentAmount: props.currentAmount,
+          beginDate: dayjs.tz(values.beginDate).utc(true),
+          plannedEndDate: dayjs.tz(values.plannedEndDate).utc(true),
+        }),
       });
       if (response.status === 200) {
         notifications.show({
