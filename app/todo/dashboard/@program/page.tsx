@@ -16,6 +16,7 @@ import { useSessionStorage } from '@mantine/hooks';
 import { HTTP_METHODS } from 'next/dist/server/web/http';
 import useSWR from 'swr';
 import { TodoType } from '../../list/page';
+import dayjs from 'dayjs';
 
 const fetcher = async (
   url: RequestInfo | URL,
@@ -64,11 +65,16 @@ export default function Program() {
               <th>名称</th>
               <th>预计结束时间</th>
               <th>进度</th>
+              <th>今日任务量</th>
             </tr>
           </thead>
           <tbody>
             {data.map((todo) => {
               const progress = (todo.currentAmount / todo.totalAmount) * 100;
+              const plannedEndDate = dayjs(todo.plannedEndDate);
+              const duratin = dayjs.duration(plannedEndDate.diff(dayjs()));
+              const today =
+                (todo.totalAmount - todo.currentAmount) / duratin.asDays();
               return (
                 <tr key={todo.id}>
                   <td>
@@ -87,18 +93,21 @@ export default function Program() {
                       <Text>{todo.name}</Text>
                     )}
                   </td>
-                  <td>
-                    {progress < 100 ? todo.plannedEndDate : todo.actualEndDate}
-                  </td>
+                  <td>{todo.plannedEndDate}</td>
                   <td>
                     <Progress
                       sections={[
                         {
                           value: progress,
-                          color: progress < 100 ? 'blue' : 'green',
+                          color: 'blue',
                         },
                       ]}
                     />
+                  </td>
+                  <td>
+                    {today < 0
+                      ? todo.totalAmount - todo.currentAmount
+                      : today.toFixed(0)}
                   </td>
                 </tr>
               );
