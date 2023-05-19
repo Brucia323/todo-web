@@ -61,7 +61,7 @@ export default function Time() {
     value ? ['/api/user', value.token] : null,
     ([url, token]) => fetcher(url, token),
     {
-      onSuccess: (data, key, config) => {
+      onSuccess: (data) => {
         const timePerWeek = JSON.parse(data.timePerWeek);
         form.setFieldValue(
           'dayOfWeek',
