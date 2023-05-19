@@ -1,5 +1,6 @@
 'use client';
 
+import { UserType } from '@/lib/types';
 import { PASSWORD } from '@/lib/utils';
 import {
   Button,
@@ -12,7 +13,10 @@ import {
   Title,
 } from '@mantine/core';
 import { matches, useForm } from '@mantine/form';
+import { useSessionStorage } from '@mantine/hooks';
+import { notifications } from '@mantine/notifications';
 import { IconPassword } from '@tabler/icons-react';
+import { HTTP_METHODS } from 'next/dist/server/web/http';
 import { useState } from 'react';
 
 interface FormValues {
@@ -21,6 +25,9 @@ interface FormValues {
 
 export default function Personal() {
   const [active, setActive] = useState(0);
+  const [isLoading, setIsLoading] = useState(false);
+
+  const [value] = useSessionStorage<UserType>({ key: 'user' });
 
   const firstForm = useForm<FormValues>({
     initialValues: {
@@ -39,9 +46,31 @@ export default function Personal() {
     },
   });
 
-  const handleFirstSubmit = (values: FormValues) => {};
+  const handleFirstSubmit = async (values: FormValues) => {
+    try {
+      setIsLoading(true);
+      const response = await fetch(
+        `/api/user/password?password=${values.password}`,
+        {
+          method: HTTP_METHODS[0],
+          headers: { Authorization: value.token },
+        }
+      );
+      if (response.status === 200) {
+        setActive(1);
+      } else {
+        notifications.show({ message: '密码错误', color: 'red' });
+      }
+    } catch {
+      notifications.show({ message: '网络异常', color: 'red' });
+    } finally {
+      setIsLoading(false);
+    }
+  };
 
-  const handleSecondSubmit = (values: FormValues) => {};
+  const handleSecondSubmit = (values: FormValues) => {
+    try{}catch{}finally{}
+  };
 
   return (
     <Stack>
@@ -65,7 +94,7 @@ export default function Personal() {
                 </Stack>
               </form>
             </Stepper.Step>
-            
+
             <Stepper.Step label="输入新密码">
               <form onSubmit={secondForm.onSubmit(handleSecondSubmit)}>
                 <Stack align="center">
