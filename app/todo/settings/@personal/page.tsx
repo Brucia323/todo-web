@@ -17,6 +17,7 @@ import { useSessionStorage } from '@mantine/hooks';
 import { notifications } from '@mantine/notifications';
 import { IconPassword } from '@tabler/icons-react';
 import { HTTP_METHODS } from 'next/dist/server/web/http';
+import { useRouter } from 'next/navigation';
 import { useState } from 'react';
 
 interface FormValues {
@@ -26,6 +27,8 @@ interface FormValues {
 export default function Personal() {
   const [active, setActive] = useState(0);
   const [isLoading, setIsLoading] = useState(false);
+
+  const router = useRouter();
 
   const [value] = useSessionStorage<UserType>({ key: 'user' });
 
@@ -68,15 +71,48 @@ export default function Personal() {
     }
   };
 
-  const handleSecondSubmit = (values: FormValues) => {
-    try{}catch{}finally{}
+  const handleSecondSubmit = async (values: FormValues) => {
+    try {
+      setIsLoading(true);
+      const prevResponse = await fetch('/api/user', {
+        method: HTTP_METHODS[0],
+        headers: { Authorization: value.token },
+      });
+      if (!prevResponse.ok) {
+        notifications.show({ message: '网络异常', color: 'red' });
+        return;
+      }
+      const body = await prevResponse.json();
+      const response = await fetch(`/api/user/${body.id}`, {
+        method: HTTP_METHODS[4],
+        headers: {
+          Authorization: value.token,
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({ ...body, ...values }),
+      });
+      if (response.ok) {
+        notifications.show({
+          title: '修改成功',
+          message: '请重新登录',
+          color: 'green',
+        });
+        router.push('/user/login');
+        return;
+      }
+      notifications.show({ message: '网络异常', color: 'red' });
+    } catch {
+      notifications.show({ message: '网络异常', color: 'red' });
+    } finally {
+      setIsLoading(false);
+    }
   };
 
   return (
     <Stack>
       <Card shadow="md" withBorder>
         <Stack>
-          <Title>修改密码</Title>
+          <Title order={2}>修改密码</Title>
           <Divider />
           <Stepper active={active} breakpoint="sm">
             <Stepper.Step label="确认旧密码">
@@ -89,7 +125,9 @@ export default function Personal() {
                     {...firstForm.getInputProps('password')}
                   />
                   <Group position="right" w="100%">
-                    <Button type="submit">下一步</Button>
+                    <Button type="submit" loading={isLoading}>
+                      下一步
+                    </Button>
                   </Group>
                 </Stack>
               </form>
@@ -105,7 +143,9 @@ export default function Personal() {
                     {...secondForm.getInputProps('password')}
                   />
                   <Group position="right" w="100%">
-                    <Button type="submit">确认</Button>
+                    <Button type="submit" loading={isLoading}>
+                      确认
+                    </Button>
                   </Group>
                 </Stack>
               </form>
