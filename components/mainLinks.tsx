@@ -7,7 +7,7 @@ import React from 'react';
 interface MainLinkProps {
   url: string;
   icon: React.ReactNode;
-  label: string
+  label: string;
 }
 
 function MainLink({ url, icon, label }: MainLinkProps) {
@@ -34,9 +34,7 @@ const data = [
 ];
 
 export default function MainLinks() {
-  const links = data.map((link) => (
-    <MainLink key={link.label} {...link} />
-  ));
+  const links = data.map((link) => <MainLink key={link.label} {...link} />);
 
   return <Stack>{links}</Stack>;
 }
