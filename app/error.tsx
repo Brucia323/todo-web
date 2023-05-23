@@ -1,15 +1,15 @@
 'use client';
 
+import { Illustration } from '@/components/Illustration';
 import {
-  createStyles,
-  Container,
-  Title,
-  Text,
   Button,
+  Container,
   Group,
+  Text,
+  Title,
+  createStyles,
   rem,
 } from '@mantine/core';
-import { Illustration } from '@/components/Illustration';
 
 const useStyles = createStyles((theme) => ({
   root: {
