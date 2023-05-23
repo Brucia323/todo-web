@@ -1,16 +1,11 @@
 'use client';
 
-import {
-  ActionIcon,
-  AppShell,
-  Flex,
-  Header,
-} from '@mantine/core';
+import { ActionIcon, AppShell, Flex, Header } from '@mantine/core';
 import { IconHome } from '@tabler/icons-react';
 import Link from 'next/link';
 import React from 'react';
 
-export default function Layout({ children }: { children: React.ReactNode; }) {
+export default function Layout({ children }: { children: React.ReactNode }) {
   return (
     <AppShell
       padding="md"
