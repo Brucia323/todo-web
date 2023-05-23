@@ -17,7 +17,7 @@ import { useDisclosure, useSessionStorage } from '@mantine/hooks';
 import { notifications } from '@mantine/notifications';
 import dayjs from 'dayjs';
 import { HTTP_METHODS } from 'next/dist/server/web/http';
-import { useEffect, useState } from 'react';
+import { useState } from 'react';
 
 interface FormValues {
   name: string;
