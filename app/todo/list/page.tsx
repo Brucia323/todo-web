@@ -110,13 +110,13 @@ export default function Todolist() {
                       todo.plannedEndDate ? new Date(todo.plannedEndDate) : null
                     }
                   />
-                  {progress < 100 &&
+                  {progress < 100 && (
                     <Update
                       min={todo.currentAmount}
                       max={todo.totalAmount}
                       id={todo.id}
                     />
-                  }
+                  )}
                   <Delete id={todo.id} name={todo.name} />
                 </td>
               </tr>
