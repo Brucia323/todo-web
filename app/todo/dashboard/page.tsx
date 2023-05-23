@@ -1,11 +1,10 @@
 'use client';
 
-import { Skeleton, Text, Title } from '@mantine/core';
+import { UserType } from '@/lib/types';
+import { Skeleton, Title } from '@mantine/core';
+import { useSessionStorage } from '@mantine/hooks';
 import { HTTP_METHODS } from 'next/dist/server/web/http';
 import useSWR from 'swr';
-import { useSessionStorage } from '@mantine/hooks';
-import { UserType } from '@/lib/types';
-import React from 'react';
 
 const fetcher = async (url: RequestInfo | URL, token: string) => {
   const response = await fetch(url, {
@@ -25,5 +24,9 @@ export default function Dashboard() {
     ([url, token]) => fetcher(url, token)
   );
 
-  return <Title display="flex">你好{data ? `，${data.name}` : <Skeleton width={200} height={44} />}</Title>;
+  return (
+    <Title display="flex">
+      你好{data ? `，${data.name}` : <Skeleton width={200} height={44} />}
+    </Title>
+  );
 }
