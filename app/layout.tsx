@@ -1,9 +1,9 @@
-import { Analytics } from '@vercel/analytics/react';
-import React from 'react';
+import DatesRegistry from '@/components/dates';
 import RootStyleRegistry from '@/components/emotion';
 import ModalsRegistry from '@/components/modals';
-import DatesRegistry from '@/components/dates';
 import NotificationsRegistry from '@/components/notifications';
+import { Analytics } from '@vercel/analytics/react';
+import React from 'react';
 
 export const metadata = {
   title: 'Todo',
