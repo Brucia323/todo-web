@@ -10,7 +10,7 @@ import { notifications } from '@mantine/notifications';
 import { IconLogin, IconMail, IconPassword } from '@tabler/icons-react';
 import { HTTP_METHODS } from 'next/dist/server/web/http';
 import { useRouter } from 'next/navigation';
-import React, { useState } from 'react';
+import { useState } from 'react';
 
 interface FormValues {
   email: string;
