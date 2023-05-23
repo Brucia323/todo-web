@@ -1,12 +1,5 @@
 import { UserType } from '@/lib/types';
-import {
-  Button,
-  Divider,
-  Group,
-  Modal,
-  NumberInput,
-  Stack,
-} from '@mantine/core';
+import { Button, Group, Modal, NumberInput, Stack } from '@mantine/core';
 import { useDisclosure, useSessionStorage } from '@mantine/hooks';
 import { notifications } from '@mantine/notifications';
 import { HTTP_METHODS } from 'next/dist/server/web/http';
