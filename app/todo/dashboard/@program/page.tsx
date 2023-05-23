@@ -13,10 +13,10 @@ import {
   Title,
 } from '@mantine/core';
 import { useSessionStorage } from '@mantine/hooks';
+import dayjs from 'dayjs';
 import { HTTP_METHODS } from 'next/dist/server/web/http';
 import useSWR from 'swr';
 import { TodoType } from '../../list/page';
-import dayjs from 'dayjs';
 
 const fetcher = async (
   url: RequestInfo | URL,
